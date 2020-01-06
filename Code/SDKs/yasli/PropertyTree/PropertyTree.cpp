@@ -49,7 +49,8 @@ TreeConfig::TreeConfig()
 , showContainerIndices(true)
 , filterWhenType(true)
 , sliderUpdateDelay(25)
-, undoEnabled(true)
+, undoEnabled(false)
+, fullUndo(false)
 , multiSelection(false)
 {
 	defaultRowHeight = 22;
@@ -114,6 +115,7 @@ PropertyTree::PropertyTree(IUIFacade* uiFacade)
 , pressDelta_(0, 0)
 , pointerMovedSincePress_(false)
 , lastStillPosition_(-1, -1)
+, mouseOverRow_(0)
 , pressedRow_(0)
 , capturedRow_(0)
 , dragCheckMode_(false)
@@ -721,6 +723,9 @@ void PropertyTree::attach(const yasli::Object& object)
 
 void PropertyTree::detach()
 {
+	capturedRow_ = nullptr;
+	mouseOverRow_ = nullptr;
+	lastSelectedRow_.release();
 	_cancelWidget();
 	attached_.clear();
 	model()->root()->clear();
@@ -762,6 +767,7 @@ void PropertyTree::revert()
 	interruptDrag();
 	_cancelWidget();
 	capturedRow_ = 0;
+	mouseOverRow_ = 0;
 	lastSelectedRow_.release();
 
 	if (!attached_.empty()) {
