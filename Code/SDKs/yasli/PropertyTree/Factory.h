@@ -79,10 +79,11 @@ public:
     };
     typedef std::map<_Key, CreatorBase*, _KeyPred> Creators;
 
+    
     template<class _Derived>
     struct Creator : CreatorBase{
-        Creator(const _Key& key){
-            Factory::the().add(key, this);
+        Creator(const _Key& key, Factory& factory){
+			factory.add(key, this);
         }
         // virtuals:
         _Product* create(_Constructor ctor) const {
@@ -150,8 +151,9 @@ protected:
     Creators creators_;
 };
 
-#define REGISTER_IN_FACTORY(factory, key, product)              \
-	static factory::Creator<product> factory##product##Creator(key); 
+#define REGISTER_IN_PROPERTY_ROW_FACTORY(key, product)              \
+	static PropertyRowFactory::Creator<product> PropertyRowFactory##product##Creator(key, globalPropertyRowFactory()); 
+
 
 #define DECLARE_SEGMENT(fileName) int dataSegment##fileName; 
 
