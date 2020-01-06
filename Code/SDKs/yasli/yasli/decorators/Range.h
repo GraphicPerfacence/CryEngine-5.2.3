@@ -26,7 +26,7 @@ struct RangeDecorator
 };
 
 template<class T>
-RangeDecorator<T> Range(T& value, float hardMin, float hardMax, T singleStep = (T)DefaultSinglestep<T>::value())
+RangeDecorator<T> Range(T& value, T hardMin, T hardMax, T singleStep = (T)DefaultSinglestep<T>::value())
 {
 	RangeDecorator<T> r;
 	r.value = &value;
