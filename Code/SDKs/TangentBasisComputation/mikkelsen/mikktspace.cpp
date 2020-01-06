@@ -123,7 +123,7 @@ static tbool NotZero(const float fX)
 static tbool VNotZero(const SVec3 v)
 {
 	// might change this to an epsilon based test
-	return NotZero(v.x) || NotZero(v.y) || NotZero(v.z);
+		return LengthSquared(v) > FLT_MIN;
 }
 
 
