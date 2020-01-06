@@ -96,7 +96,7 @@ struct IDrawContext
 	virtual void drawButton(const Rect& rect, const char* text, int buttonFlags, property_tree::Font font, const Color* colorOverride = 0) = 0;
 	virtual void drawCheck(const Rect& rect, bool disabled, CheckState checked) = 0;
 	virtual void drawColor(const Rect& rect, const Color& color) = 0;
-	virtual void drawComboBox(const Rect& rect, const char* text) = 0;
+	virtual void drawComboBox(const Rect& rect, const char* text,bool disabled) = 0;
 	virtual void drawEntry(const Rect& rect, const char* text, bool pathEllipsis, bool grayBackground, int trailingOffset) = 0;
 	virtual void drawRowLine(const Rect& rect) = 0;
 	virtual void drawHorizontalLine(const Rect& rect) = 0;
