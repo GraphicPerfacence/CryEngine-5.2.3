@@ -8,10 +8,11 @@
  */
 
 #pragma once
+#include "yasli/Config.h"
 #include <PropertyTree/PropertyRow.h>
 #include <PropertyTree/IDrawContext.h>
 
-class PropertyRowField : public PropertyRow
+class PROPERTY_TREE_API PropertyRowField : public PropertyRow
 {
 public:
 	WidgetPlacement widgetPlacement() const override{ return WIDGET_VALUE; }
