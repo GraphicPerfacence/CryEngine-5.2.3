@@ -165,7 +165,8 @@ protected:
 	void updateHeights(bool recalculateText = false) override;
 	void repaint() override { update(); }
 	void resetFilter() override { onFilterChanged(QString()); }
-
+	
+	bool event(QEvent* ev) override;
 	QSize sizeHint() const override;
 	void paintEvent(QPaintEvent* ev) override;
 	void moveEvent(QMoveEvent* ev) override;
