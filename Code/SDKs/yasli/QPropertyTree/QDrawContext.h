@@ -25,7 +25,7 @@ public:
 	void drawButtonWithIcon(const Icon&, const Rect& rect, const char* text, int buttonFlags, property_tree::Font font) override;
 	void drawCheck(const Rect& rect, bool disabled, CheckState checked) override;
 	void drawColor(const Rect& rect, const Color& color) override;
-	void drawComboBox(const Rect& rect, const char* text) override;
+	void drawComboBox(const Rect& rect, const char* text,bool disable) override;
 	void drawEntry(const Rect& rect, const char* text, bool pathEllipsis, bool grayBackground, int trailingOffset) override;
 	void drawRowLine(const Rect& rect) override;
 	void drawHorizontalLine(const Rect& rect) override;
