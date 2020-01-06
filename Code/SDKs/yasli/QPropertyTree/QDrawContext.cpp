@@ -131,7 +131,7 @@ void QDrawContext::drawColor(const Rect& rect, const Color& treeColor)
 	painter_->restore();
 }
 
-void QDrawContext::drawComboBox(const Rect& rect, const char* text)
+void QDrawContext::drawComboBox(const Rect& rect, const char* text,bool disable)
 {
 	// the Qt drawing functions doesn't paint controls like comboboxes/checkboxes/lineedits etc.
 	// with the correct style until there is passed as an argument some existing control,
@@ -143,7 +143,8 @@ void QDrawContext::drawComboBox(const Rect& rect, const char* text)
 	option.editable = false;
 	option.frame = true;
 	option.currentText = QString(text);
-	option.state |= QStyle::State_Enabled;
+	if (!disabled)
+		option.state |= QStyle::State_Enabled;
 	option.rect = QRect(0, 0, rect.width(), rect.height());
 	// we have to translate painter here to work around bug in some themes
 	painter_->translate(rect.left(), rect.top());
