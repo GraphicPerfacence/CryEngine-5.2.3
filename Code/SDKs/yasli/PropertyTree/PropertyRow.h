@@ -287,6 +287,8 @@ public:
 		hit->toolTip = tooltip_;
 		return true; 
 	}
+	virtual bool onShowToolTip() { return false; }
+	virtual void onHideToolTip() { }
 
 	virtual bool onActivate(const PropertyActivationEvent& e);
 	virtual bool onKeyDown(PropertyTree* tree, const KeyEvent* ev);
@@ -529,8 +531,8 @@ inline void visitPulledRows(PropertyRow* row, T& drawFunc)
 	}
 };
 
-YASLI_API PropertyRowFactory& globalPropertyRowFactory();
-YASLI_API yasli::ClassFactory<PropertyRow>& globalPropertyRowClassFactory();
+PROPERTY_TREE_API PropertyRowFactory& globalPropertyRowFactory();
+PROPERTY_TREE_API yasli::ClassFactory<PropertyRow>& globalPropertyRowClassFactory();
 
 struct PropertyRowPtrSerializer : yasli::SharedPtrSerializer<PropertyRow>
 {
@@ -545,7 +547,8 @@ inline bool YASLI_SERIALIZE_OVERRIDE(yasli::Archive& ar, yasli::SharedPtr<Proper
 }
 
 #define REGISTER_PROPERTY_ROW(DataType, RowType) \
-	REGISTER_IN_FACTORY(PropertyRowFactory, yasli::TypeID::get<DataType>().name(), RowType); \
+	REGISTER_IN_PROPERTY_ROW_FACTORY(yasli::TypeID::get<DataType>().name(), RowType); \
 	YASLI_CLASS_NAME(PropertyRow, RowType, #RowType, #DataType);
+
 
 
