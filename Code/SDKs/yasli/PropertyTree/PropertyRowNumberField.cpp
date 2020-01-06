@@ -29,10 +29,11 @@ property_tree::InplaceWidget* PropertyRowNumberField::createWidget(PropertyTree*
 
 void PropertyRowNumberField::redraw(IDrawContext& context)
 {
-	if(multiValue())
+		if (multiValue())
+	{
 		context.drawEntry(context.widgetRect, " ... ", false, userReadOnly(), 0);
-	else if (userReadOnly())
-		context.drawValueText(pulledSelected(), valueAsString().c_str());
+	}
+
 	else 
 	{
 		int flags = 0;
@@ -134,7 +135,8 @@ int PropertyRowNumberField::widgetSizeMin(const PropertyTree* tree) const
 		return userWidgetSize();
 
 	if (userWidgetToContent())
-		return widthCache_.getOrUpdate(tree, this, 0);
+				return widthCache_.getOrUpdate(tree, this, 20);
+
 	else
 		return 40;
 }
