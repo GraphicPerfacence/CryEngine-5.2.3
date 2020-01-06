@@ -1195,24 +1195,26 @@ bool PropertyRow::onKeyDown(PropertyTree* tree, const KeyEvent* ev)
 	}
 	return false;
 }
-
 struct ExpansionMenuHandler : PropertyRowMenuHandler
 {
 	PropertyTree* tree;
-	ExpansionMenuHandler(PropertyTree* tree)
-	: tree(tree)
+	PropertyRow* row;
+
+	ExpansionMenuHandler(PropertyTree* tree, PropertyRow* row)
+	: tree(tree), row(row)
 	{
 	}
 
 	void onMenuExpand()
 	{
-		tree->expandAll();
+		tree->expandChildren(row);
 	}
 	void onMenuCollapse()
 	{
-		tree->collapseAll();
+		tree->collapseChildren(row);
 	}
 };
+
 
 bool PropertyRow::onContextMenu(property_tree::IMenu &menu, PropertyTree* tree)
 {
@@ -1237,9 +1239,10 @@ bool PropertyRow::onContextMenu(property_tree::IMenu &menu, PropertyTree* tree)
 		if(!menu.isEmpty())
 			menu.addSeparator();
 
-		ExpansionMenuHandler* handler = new ExpansionMenuHandler(tree);
-		menu.addAction("Expand", 0, handler, &ExpansionMenuHandler::onMenuExpand);
-		menu.addAction("Collapse", 0, handler, &ExpansionMenuHandler::onMenuCollapse);
+		ExpansionMenuHandler* handler = new ExpansionMenuHandler(tree, this);
+		menu.addAction(isRoot() ? "Expand All" : "Expand", 0, handler, &ExpansionMenuHandler::onMenuExpand);
+		menu.addAction(isRoot() ? "Collapse All" : "Collapse", 0, handler, &ExpansionMenuHandler::onMenuCollapse);
+
 		tree->addMenuHandler(handler);
 	}
 
