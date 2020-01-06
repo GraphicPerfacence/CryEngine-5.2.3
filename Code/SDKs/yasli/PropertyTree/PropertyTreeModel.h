@@ -66,7 +66,7 @@ struct PropertyDefaultTypeValue
 
 class PropertyTree;
 
-class PropertyTreeModel
+class PROPERTY_TREE_API PropertyTreeModel
 {
 public:
 	class LockedUpdate : public yasli::RefCounter{
