@@ -331,6 +331,7 @@ protected:
 	Point pressDelta_;
 	bool pointerMovedSincePress_;
 	Point lastStillPosition_;
+	PropertyRow* mouseOverRow_;
 	PropertyRow* capturedRow_;
 	PropertyRow* pressedRow_;
 	TreeConfig config_;
