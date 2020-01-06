@@ -1074,6 +1074,20 @@ QSize QPropertyTree::sizeHint() const
 		return sizeHint_;
 }
 
+bool QPropertyTree::event(QEvent* ev)
+{
+	if (ev->type() == QEvent::ToolTip)
+	{
+		Point point = fromQPoint(mapFromGlobal(QCursor::pos()));
+		PropertyRow* row = rowByPoint(point);
+
+		if (row && row->onShowToolTip())
+			return true;
+	}
+
+	return QWidget::event(ev);
+}
+
 void QPropertyTree::paintEvent(QPaintEvent* ev)
 {
 	QElapsedTimer timer;
@@ -1227,7 +1241,8 @@ void QPropertyTree::mousePressEvent(QMouseEvent* ev)
 		}
 		else{
 			Rect rect = fromQRect(this->rect());
-			onRowRMBDown(model()->root(), rect, _toWidget(fromQPoint(pointToRootSpace(ev->pos()))));
+			onRowRMBDown(model()->root(), rect, fromQPoint(pointToRootSpace(ev->pos())));
+
 		}
 	}
 }
@@ -1354,23 +1369,18 @@ void QPropertyTree::mouseDoubleClickEvent(QMouseEvent* ev)
 		while (nonPulledParent && nonPulledParent->pulledUp())
 			nonPulledParent = nonPulledParent->parent();
 
+		
+		PropertyRow* expanding_row = row;
 		if(row->widgetRect(this).contains(pointToRootSpace(point))){
-			if(!row->onActivate(e))
-				toggleRow(nonPulledParent);	
-		}
-		else if(!toggleRow(row)) {
 			if (!row->onActivate(e))
-				if(!toggleRow(nonPulledParent)) {
-					// activate first visible inline row
-					for (size_t i = 0; i < row->count(); ++i) {
-						PropertyRow* child = row->childByIndex(i);
-						if (child && child->pulledUp() && child->visible(this)) {
-							child->onActivate(e);
-							break;
-						}
-					}
-				}
+				expanding_row = nonPulledParent;
 		}
+
+		if (expanding_row->expanded())
+			collapseChildren(expanding_row);
+		else
+			expandChildren(expanding_row);
+
 	}
 }
 
@@ -1463,6 +1473,10 @@ void QPropertyTree::mouseMoveEvent(QMouseEvent* ev)
 		}
 
 		PropertyRow* hoverRow = row;
+		if (mouseOverRow_ && row != mouseOverRow_)
+			mouseOverRow_->onHideToolTip();
+		mouseOverRow_ = row;
+
 		if (capturedRow_)
 			hoverRow = capturedRow_;
 		PropertyHoverInfo hover;
