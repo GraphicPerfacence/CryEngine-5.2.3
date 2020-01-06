@@ -276,6 +276,7 @@ void QDrawContext::drawNumberEntry(const char* text, const Rect& rect, int flags
 	s_lineEdit.setMaximum(maxValue);
 	s_lineEdit.setValue(atof(text));
 	s_lineEdit.alignText();
+	s_lineEdit.setEnabled(!(flags & FIELD_DISABLED));
 
 	QPixmap w1Pix = s_lineEdit.grab();
 	painter_->drawPixmap(rt, w1Pix);
