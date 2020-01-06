@@ -51,13 +51,12 @@ void PropertyRowField::redraw(IDrawContext& context)
 		context.drawIcon(iconRect, icon, userReadOnly() ? ICON_DISABLED : ICON_NORMAL);
 	}
 
-	int iconSpace = offset ? offset + 2 : 0;
+		int iconSpace = offset ? offset + 2 : 0;
     if(multiValue())
 		context.drawEntry(context.widgetRect, " ... ", false, userReadOnly(), iconSpace);
-    else if(userReadOnly())
-		context.drawValueText(pulledSelected(), valueAsString().c_str());
     else
-        context.drawEntry(context.widgetRect, valueAsString().c_str(), usePathEllipsis(), false, iconSpace);
+		context.drawEntry(context.widgetRect, valueAsString().c_str(), usePathEllipsis(), userReadOnly(), iconSpace);
+
 
 }
 
