@@ -64,12 +64,11 @@ public:
 
 	void redraw(IDrawContext& context) override
 	{
-		if(multiValue())
+				if(multiValue())
 			context.drawEntry(context.widgetRect, " ... ", false, true, 0);
-		else if(userReadOnly())
-			context.drawValueText(pulledSelected(), valueAsString().c_str());
 		else
-			context.drawComboBox(context.widgetRect, valueAsString().c_str());
+			context.drawComboBox(context.widgetRect, valueAsString().c_str(), userReadOnly());
+
 
 	}
 
@@ -131,12 +130,11 @@ public:
 	yasli::TypeID typeId() const override{ return type_; }
 	void redraw(IDrawContext& context) override
 	{
-		if(multiValue())
+				if(multiValue())
 			context.drawEntry(context.widgetRect, " ... ", false, true, 0);
-		else if(userReadOnly())
-			context.drawValueText(pulledSelected(), valueAsString().c_str());
 		else
-			context.drawComboBox(context.widgetRect, valueAsString().c_str());
+			context.drawComboBox(context.widgetRect, valueAsString().c_str(), userReadOnly());
+
 	}
 
 
