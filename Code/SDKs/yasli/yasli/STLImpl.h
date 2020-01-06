@@ -43,18 +43,6 @@ public:
 		_v.resize( _size );
 	}
 
-	void resizeHelper(size_t _size, ...) const
-	{
-		while(size_t(container_->size()) > _size)
-		{
-			typename Container::iterator it = container_->end();
-			--it;
-			container_->erase(it);
-		}
-		while(size_t(container_->size()) < _size)
-			container_->insert(container_->end(), Element());
-	}
-
 	// from ContainerInterface
 	size_t size() const{
 		YASLI_ESCAPE(container_ != 0, return 0);
@@ -62,7 +50,7 @@ public:
 	}
 	size_t resize(size_t size){
 		YASLI_ESCAPE(container_ != 0, return 0);
-		resizeHelper(size, container_);
+		container_->resize(size);
 		it_ = container_->begin();
 		size_ = size;
 		return size;
